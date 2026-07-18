@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>One Tek Solution</title>
+<meta name="description" content="Electronics manufacturing, component trading & web/SEO services.">
+<meta name="theme-color" content="#141414">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --charcoal-950:#131211;
+    --charcoal-900:#1c1a18;
+    --charcoal-800:#272320;
+    --charcoal-700:#332e29;
+    --brass:#c9a24b;
+    --brass-light:#e3c273;
+    --signal-red:#b6402f;
+    --paper:#f3ede1;
+    --paper-dim:#b8b0a2;
+    --line:#3a352f;
+  }
+  *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+  body{
+    background:var(--charcoal-950);
+    color:var(--paper);
+    font-family:'Inter',sans-serif;
+    overscroll-behavior-y:none;
+    padding-bottom:76px;
+  }
+  h1,h2,h3{font-family:'Sora',sans-serif; letter-spacing:-0.01em;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  a{color:inherit; text-decoration:none;}
+
+  /* ---- circuit trace divider (signature element) ---- */
+  .trace{
+    position:relative; height:22px; margin:0 20px;
+    display:flex; align-items:center;
+  }
+  .trace::before{
+    content:""; position:absolute; left:0; right:0; top:50%;
+    height:1px; background:var(--line);
+  }
+  .trace .pad{
+    position:relative; width:6px; height:6px; border-radius:50%;
+    background:var(--brass); margin-left:auto; margin-right:auto;
+    box-shadow:0 0 0 3px var(--charcoal-950);
+  }
+
+  header.topbar{
+    display:flex; align-items:center; gap:10px;
+    padding:16px 20px 10px;
+    position:sticky; top:0; background:var(--charcoal-950); z-index:20;
+  }
+  .badge{
+    width:36px; height:36px; border-radius:50%;
+    border:1.5px solid var(--brass);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Sora'; font-weight:800; font-size:13px; color:var(--brass);
+    background:var(--charcoal-900);
+  }
+  header.topbar .brand{font-size:15px; font-weight:600; letter-spacing:0.04em; text-transform:uppercase;}
+  header.topbar .brand span{display:block; font-size:10px; color:var(--paper-dim); font-weight:400; letter-spacing:0.08em; margin-top:1px;}
+
+  main{padding:0 20px;}
+  .view{display:none; animation:fade .25s ease;}
+  .view.active{display:block;}
+  @keyframes fade{from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:translateY(0)}}
+
+  /* HOME */
+  .hero{padding:22px 0 20px;}
+  .eyebrow{
+    font-family:'JetBrains Mono'; font-size:11px; color:var(--brass);
+    letter-spacing:0.12em; text-transform:uppercase; margin-bottom:10px;
+  }
+  .hero h1{font-size:30px; line-height:1.15; font-weight:700; color:var(--paper);}
+  .hero h1 em{font-style:normal; color:var(--brass);}
+  .hero p{margin-top:12px; color:var(--paper-dim); font-size:14.5px; line-height:1.55; max-width:34ch;}
+
+  .stat-row{display:flex; gap:10px; margin-top:20px;}
+  .stat{flex:1; background:var(--charcoal-900); border:1px solid var(--line); border-radius:10px; padding:12px 10px;}
+  .stat b{display:block; font-family:'Sora'; font-size:18px; color:var(--brass-light);}
+  .stat span{font-size:10.5px; color:var(--paper-dim); text-transform:uppercase; letter-spacing:0.04em;}
+
+  .cta-row{display:flex; gap:10px; margin-top:20px;}
+  .btn{
+    flex:1; text-align:center; padding:13px 14px; border-radius:9px;
+    font-weight:600; font-size:14px; letter-spacing:0.01em;
+    border:1px solid var(--line);
+  }
+  .btn.primary{background:var(--brass); color:var(--charcoal-950); border-color:var(--brass);}
+  .btn.ghost{background:transparent; color:var(--paper);}
+
+  .section-label{
+    display:flex; align-items:baseline; gap:8px; margin:26px 0 12px;
+  }
+  .section-label .n{font-family:'JetBrains Mono'; font-size:11px; color:var(--brass);}
+  .section-label h2{font-size:16px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; color:var(--paper);}
+
+  .cat-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+  .cat-card{
+    background:var(--charcoal-900); border:1px solid var(--line); border-radius:10px;
+    padding:14px 12px; position:relative; overflow:hidden;
+  }
+  .cat-card::after{
+    content:""; position:absolute; top:8px; right:8px; width:5px; height:5px;
+    border-radius:50%; background:var(--brass); opacity:0.7;
+  }
+  .cat-card h3{font-size:13.5px; font-weight:600; color:var(--paper); line-height:1.3;}
+  .cat-card p{font-size:11px; color:var(--paper-dim); margin-top:4px;}
+
+  .strip{
+    margin-top:24px; padding:16px; border-radius:10px;
+    background:linear-gradient(135deg, var(--charcoal-900), var(--charcoal-800));
+    border:1px solid var(--line);
+  }
+  .strip p{font-size:13px; color:var(--paper-dim); line-height:1.55;}
+  .strip b{color:var(--brass-light);}
+
+  /* CATALOGUE */
+  .tabs{display:flex; gap:8px; margin:18px 0 16px; background:var(--charcoal-900); border:1px solid var(--line); border-radius:10px; padding:4px;}
+  .tab{flex:1; text-align:center; padding:9px 6px; border-radius:7px; font-size:12.5px; font-weight:600; color:var(--paper-dim);}
+  .tab.active{background:var(--brass); color:var(--charcoal-950);}
+
+  .prod-list{display:flex; flex-direction:column; gap:10px;}
+  .prod-card{
+    background:var(--charcoal-900); border:1px solid var(--line); border-radius:10px;
+    padding:14px; display:flex; justify-content:space-between; gap:10px; align-items:center;
+  }
+  .prod-card .info h3{font-size:14px; font-weight:600; color:var(--paper);}
+  .prod-card .info p{font-size:11.5px; color:var(--paper-dim); margin-top:3px; line-height:1.4;}
+  .prod-card .tag{
+    font-family:'JetBrains Mono'; font-size:10px; color:var(--brass); margin-top:6px; display:inline-block;
+  }
+  .ask-btn{
+    flex-shrink:0; padding:8px 12px; border-radius:7px; font-size:11.5px; font-weight:600;
+    border:1px solid var(--brass); color:var(--brass); white-space:nowrap;
+  }
+
+  /* INQUIRE */
+  .field{margin-bottom:14px;}
+  .field label{font-size:11.5px; color:var(--paper-dim); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:6px; display:block;}
+  .field input, .field select, .field textarea{
+    width:100%; background:var(--charcoal-900); border:1px solid var(--line); color:var(--paper);
+    padding:12px 12px; border-radius:8px; font-size:14.5px; font-family:'Inter';
+  }
+  .field textarea{min-height:90px; resize:vertical;}
+  .field input:focus, .field select:focus, .field textarea:focus{outline:2px solid var(--brass); outline-offset:1px;}
+
+  /* CONTACT */
+  .contact-list{display:flex; flex-direction:column; gap:10px; margin-top:16px;}
+  .contact-item{
+    display:flex; align-items:center; gap:12px;
+    background:var(--charcoal-900); border:1px solid var(--line); border-radius:10px; padding:14px;
+  }
+  .contact-item .ic{
+    width:38px; height:38px; border-radius:9px; background:var(--charcoal-800);
+    display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0;
+  }
+  .contact-item h3{font-size:13.5px; font-weight:600;}
+  .contact-item p{font-size:12px; color:var(--paper-dim); margin-top:2px;}
+
+  /* BOTTOM NAV */
+  nav.tabbar{
+    position:fixed; bottom:0; left:0; right:0; z-index:30;
+    background:var(--charcoal-900); border-top:1px solid var(--line);
+    display:flex; padding:8px 8px calc(8px + env(safe-area-inset-bottom));
+  }
+  nav.tabbar button{
+    flex:1; background:none; border:none; color:var(--paper-dim);
+    display:flex; flex-direction:column; align-items:center; gap:3px;
+    padding:6px 0; font-family:'Inter'; font-size:10.5px; font-weight:500;
+  }
+  nav.tabbar button .dot{width:5px; height:5px; border-radius:50%; background:transparent;}
+  nav.tabbar button.active{color:var(--brass-light);}
+  nav.tabbar button.active .dot{background:var(--brass);}
+  nav.tabbar button svg{width:20px; height:20px;}
+
+  footer.foot{margin:30px 0 10px; text-align:center;}
+  footer.foot p{font-size:10.5px; color:var(--paper-dim);}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="badge">1T</div>
+  <div class="brand">One Tek Solution<span>Manufacturing · Components · Trading</span></div>
+</header>
+
+<main>
+
+  <!-- HOME -->
+  <section class="view active" id="view-home">
+    <div class="hero">
+      <div class="eyebrow">Electronics · Manufacturing · Trading</div>
+      <h1>Built to spec.<br>Sourced on <em>time</em>.</h1>
+      <p>Power electronics, fire safety systems and hard-to-find components — manufactured and traded, ready for your production line.</p>
+      <div class="stat-row">
+        <div class="stat"><b>500+</b><span>Parts stocked</span></div>
+        <div class="stat"><b>12+</b><span>Product lines</span></div>
+        <div class="stat"><b>24h</b><span>Quote turnaround</span></div>
+      </div>
+      <div class="cta-row">
+        <button class="btn primary" onclick="go('inquire')">Get a quote</button>
+        <button class="btn ghost" onclick="go('catalogue')">Browse catalogue</button>
+      </div>
+    </div>
+
+    <div class="trace"><div class="pad"></div></div>
+
+    <div class="section-label"><span class="n">01</span><h2>What we do</h2></div>
+    <div class="cat-grid">
+      <div class="cat-card" onclick="go('catalogue')"><h3>Manufactured Products</h3><p>Inverter boards, SMPS, fire safety, anti-theft systems</p></div>
+      <div class="cat-card" onclick="go('catalogue')"><h3>Component Trading</h3><p>MCUs, analog ICs, MOSFETs, SMD passives, FPGAs</p></div>
+      <div class="cat-card" onclick="go('inquire')"><h3>Custom Quotes</h3><p>Bulk orders and hard-to-find part sourcing</p></div>
+      <div class="cat-card" onclick="go('contact')"><h3>Web & SEO</h3><p>Sister service under Solviva Technology</p></div>
+    </div>
+
+    <div class="strip">
+      <p><b>One Tek Solution</b> designs and manufactures power electronics and fire safety hardware, while sourcing production-grade components — from ATMEGA and STM32 to Broadcom and avionics-grade ICs — for clients who can't afford downtime.</p>
+    </div>
+
+    <footer class="foot"><p>info@onetecsolution.in · +91 85058 07245</p></footer>
+  </section>
+
+  <!-- CATALOGUE -->
+  <section class="view" id="view-catalogue">
+    <div class="section-label" style="margin-top:20px;"><span class="n">02</span><h2>Catalogue</h2></div>
+    <div class="tabs">
+      <div class="tab active" data-cat="made" onclick="setCat('made')">Manufactured</div>
+      <div class="tab" data-cat="parts" onclick="setCat('parts')">Components</div>
+    </div>
+    <div class="prod-list" id="prod-list"></div>
+    <footer class="foot"><p>Full spec sheets available on request</p></footer>
+  </section>
+
+  <!-- INQUIRE -->
+  <section class="view" id="view-inquire">
+    <div class="section-label" style="margin-top:20px;"><span class="n">03</span><h2>Request a quote</h2></div>
+    <p style="color:var(--paper-dim); font-size:13px; margin-bottom:18px;">Tell us what you need. We'll open it in your email app, ready to send.</p>
+    <form id="inquiry-form">
+      <div class="field"><label>Name</label><input type="text" id="f-name" required placeholder="Your full name"></div>
+      <div class="field"><label>Company</label><input type="text" id="f-company" placeholder="Company name (optional)"></div>
+      <div class="field"><label>Phone</label><input type="tel" id="f-phone" required placeholder="+91"></div>
+      <div class="field">
+        <label>What are you looking for?</label>
+        <select id="f-type">
+          <option>Manufactured product (inverter, SMPS, fire safety, etc.)</option>
+          <option>Component sourcing (ICs, MOSFETs, SMD parts)</option>
+          <option>Bulk / custom order</option>
+          <option>Web or SEO service</option>
+        </select>
+      </div>
+      <div class="field"><label>Details</label><textarea id="f-details" placeholder="Part numbers, quantity, timeline..."></textarea></div>
+      <button type="submit" class="btn primary" style="width:100%; margin-top:4px;">Send inquiry</button>
+    </form>
+    <div class="strip" style="margin-top:20px;">
+      <p>Prefer WhatsApp? <b>Tap below to chat directly.</b></p>
+      <div class="cta-row" style="margin-top:12px;">
+        <a class="btn ghost" href="https://wa.me/918505807245" style="flex:1; display:block;" target="_blank">WhatsApp us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="view" id="view-contact">
+    <div class="section-label" style="margin-top:20px;"><span class="n">04</span><h2>Contact</h2></div>
+    <div class="contact-list">
+      <a class="contact-item" href="tel:+918505807245">
+        <div class="ic">📞</div>
+        <div><h3>Call us</h3><p>+91 85058 07245</p></div>
+      </a>
+      <a class="contact-item" href="https://wa.me/918505807245" target="_blank">
+        <div class="ic">💬</div>
+        <div><h3>WhatsApp</h3><p>Chat instantly with our sales team</p></div>
+      </a>
+      <a class="contact-item" href="mailto:info@onetecsolution.in">
+        <div class="ic">✉️</div>
+        <div><h3>Email</h3><p>info@onetecsolution.in</p></div>
+      </a>
+      <a class="contact-item" href="https://www.onetecsolution.in" target="_blank">
+        <div class="ic">🌐</div>
+        <div><h3>Website</h3><p>www.onetecsolution.in</p></div>
+      </a>
+    </div>
+    <div class="trace" style="margin-top:26px;"><div class="pad"></div></div>
+    <footer class="foot"><p>One Tek Solution — Electronics Manufacturing & Component Trading</p></footer>
+  </section>
+
+</main>
+
+<nav class="tabbar">
+  <button class="active" data-view="home" onclick="go('home')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+    Home<span class="dot"></span>
+  </button>
+  <button data-view="catalogue" onclick="go('catalogue')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    Catalogue<span class="dot"></span>
+  </button>
+  <button data-view="inquire" onclick="go('inquire')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v12H8l-4 4z"/></svg>
+    Inquire<span class="dot"></span>
+  </button>
+  <button data-view="contact" onclick="go('contact')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20c1.5-4 5-5.5 7.5-5.5s6 1.5 7.5 5.5"/></svg>
+    Contact<span class="dot"></span>
+  </button>
+</nav>
+
+<script>
+  const PRODUCTS = {
+    made: [
+      {n:"Inverter Boards", d:"Custom power inverter PCBs, various wattages", t:"POWER-INV"},
+      {n:"SMPS Units", d:"Switch-mode power supplies for industrial use", t:"SMPS"},
+      {n:"Power Supply Modules", d:"Regulated DC output, custom voltage/current", t:"PSU"},
+      {n:"Automotive Flashers", d:"Indicator flasher units for vehicles", t:"AUTO-FL"},
+      {n:"Fire Alarm Systems", d:"Control panels, detectors, sounders", t:"FIRE-SYS"},
+      {n:"Railway Anti-Theft Devices", d:"Cable and asset theft-prevention electronics", t:"RAIL-SEC"},
+    ],
+    parts: [
+      {n:"Microcontrollers", d:"ATMEGA, PIC32, dsPIC, STM32 families", t:"MCU"},
+      {n:"Analog ICs", d:"Op-amps, comparators, signal conditioning", t:"ANALOG"},
+      {n:"MOSFETs & Power Devices", d:"Switching and power MOSFETs, various packages", t:"MOSFET"},
+      {n:"SMD Passives", d:"Resistors, capacitors — full range of values", t:"SMD-PASV"},
+      {n:"FPGAs", d:"Programmable logic devices for custom designs", t:"FPGA"},
+      {n:"Specialist / Avionics ICs", d:"Broadcom, Holt, Vicor, Analog Devices and more — ask for stock", t:"SPECIAL"},
+    ]
+  };
+
+  function go(view){
+    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+    document.getElementById('view-'+view).classList.add('active');
+    document.querySelectorAll('.tabbar button').forEach(b=>b.classList.toggle('active', b.dataset.view===view));
+    window.scrollTo(0,0);
+  }
+
+  function setCat(cat){
+    document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.cat===cat));
+    renderProducts(cat);
+  }
+
+  function renderProducts(cat){
+    const list = document.getElementById('prod-list');
+    list.innerHTML = PRODUCTS[cat].map(p => `
+      <div class="prod-card">
+        <div class="info">
+          <h3>${p.n}</h3>
+          <p>${p.d}</p>
+          <span class="tag">${p.t}</span>
+        </div>
+        <a class="ask-btn" href="#" onclick="askAbout('${p.n.replace(/'/g,"")}'); return false;">Ask</a>
+      </div>
+    `).join('');
+  }
+
+  function askAbout(name){
+    go('inquire');
+    document.getElementById('f-details').value = "Interested in: " + name + "\n";
+    document.getElementById('f-details').focus();
+  }
+
+  renderProducts('made');
+
+  document.getElementById('inquiry-form').addEventListener('submit', function(e){
+    e.preventDefault();
+    const name = document.getElementById('f-name').value;
+    const company = document.getElementById('f-company').value;
+    const phone = document.getElementById('f-phone').value;
+    const type = document.getElementById('f-type').value;
+    const details = document.getElementById('f-details').value;
+    const subject = encodeURIComponent("Inquiry: " + type);
+    const body = encodeURIComponent(
+      `Name: ${name}\nCompany: ${company}\nPhone: ${phone}\nInterest: ${type}\n\nDetails:\n${details}`
+    );
+    window.location.href = `mailto:info@onetecsolution.in?subject=${subject}&body=${body}`;
+  });
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch(()=>{});
+    });
+  }
+</script>
+</body>
+</html>
